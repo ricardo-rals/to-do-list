@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -12,12 +13,21 @@ export class HomePage {
   constructor(
     private actionSheetController : ActionSheetController,
     private alertController : AlertController,
-    private toastController : ToastController
+    private toastController : ToastController,
+    private apiService : ApiService
   ) {
     let tasksJson = localStorage.getItem('tasksDb');
     if (tasksJson != null) {
       this.tasks = JSON.parse(tasksJson);
     }
+
+    this.readData();
+  }
+
+  readData() {
+    this.apiService.readData().subscribe(data => {
+      console.log(data);
+    })
   }
 
   async openActions(task: any) {
