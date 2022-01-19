@@ -44,7 +44,7 @@ export class HomePage implements OnInit{
           console.log(task);
           let { id, done } = task;
          let test = this.apiService.updateData(id, done).subscribe(
-            (task: TasksItem) => this.tasks.push(task)
+            (task: TasksItem) => this.tasks.push()
           );
           console.log(test);
         }
