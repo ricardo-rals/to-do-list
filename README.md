@@ -15,3 +15,9 @@
 - Em `cd to-do-list/back/api_todo` no seu terminal digite `source env/bin/activate`.
 - Agora para fazer o migrate execute o comando `python manage.py migrate app`.
 5. Por fim, em seu ambiente virtual ainda, execute o comando `python manage.py runserver` para executar o back-end da aplicação.
+
+# Front-End
+1. Acesse o caminho:
+  - `cd to-do-list/front/todolist`
+2. Rode o comando `npm install` para instalar as dependências.
+3. E por fim use o comando `ionic serve` para executar a aplicação localmente.
