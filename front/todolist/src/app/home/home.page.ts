@@ -1,33 +1,36 @@
-import { Component } from '@angular/core';
-import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { ActionSheetController, AlertController, IonItem, ToastController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
+import { TasksItem } from './tasks.interface';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
-  
-  tasks : any[] = []
+export class HomePage implements OnInit{
+
+  tasks: TasksItem[];
+
   constructor(
     private actionSheetController : ActionSheetController,
     private alertController : AlertController,
     private toastController : ToastController,
     private apiService : ApiService
-  ) {
-    let tasksJson = localStorage.getItem('tasksDb');
-    if (tasksJson != null) {
-      this.tasks = JSON.parse(tasksJson);
-    }
+  ) {}
 
-    this.readData();
+  ngOnInit() {
+      this.apiService.readData().subscribe(
+        (tasks: TasksItem[]) => this.tasks = tasks
+      );
   }
 
-  readData() {
-    this.apiService.readData().subscribe(data => {
-      console.log(data);
-    })
+  deleteData(id: number){
+    this.apiService.deleteData(id).subscribe(
+      () => this.tasks.splice(
+       this.tasks.findIndex(task => task.id !== id)
+      )
+    );
   }
 
   async openActions(task: any) {
@@ -38,9 +41,14 @@ export class HomePage {
         icon: task.done ? 'radio-button-off' : 'checkmark-circle',
         handler: () => {
           task.done = !task.done;
-
-          this.updateLocalStorage();
+          console.log(task);
+          let { id, done } = task;
+         let test = this.apiService.updateData(id, done).subscribe(
+            (task: TasksItem) => this.tasks.push(task)
+          );
+          console.log(test);
         }
+        
       },
       {
         text: 'Cancelar',
@@ -52,16 +60,6 @@ export class HomePage {
       }]
     });
     await actionSheet.present();
-  }
-
-  delete(task: any) {
-    this.tasks = this.tasks.filter(taskArray => task != taskArray);
-
-    this.updateLocalStorage();
-  }
-
-  updateLocalStorage() {
-    localStorage.setItem('tasksDb', JSON.stringify(this.tasks));
   }
 
   async showAdd() {
@@ -106,10 +104,10 @@ export class HomePage {
      return;
    }
 
-   let task = { name: taskToDo, done: false };
+   let task = { task: taskToDo, done: false };
 
-   this.tasks.push(task);
-
-   this.updateLocalStorage();
+   this.apiService.createData(task.task, task.done).subscribe(
+     (task: TasksItem) => this.tasks.push(task)
+   );
  }
 }
