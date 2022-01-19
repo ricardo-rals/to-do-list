@@ -8,12 +8,18 @@
   - Execute `python3 -m venv env` para instalar o ambiente virtual
   - Ative o ambiente com o seguinte comando `source env/vin/activate`
   - Por fim, instale as depêndencias que estão no arquivo `requiriments.txt` com o comando `pip install -r requirements.txt`.
-3. Modifique o arquivo **setings.py** dentro de **/api_todo**
-- Altere os dados que estão em **DATABASE** para se conectar ao seu banco de dados:
+3. Configure as variáveis de ambiente
+  - Copie o arquivo _.env_example_ para a raiz do projeto renomeando para **.env**;
+  - Preencha com as informações do banco de dados de desenvolvimento;
 
-![DATABASE](https://user-images.githubusercontent.com/64266184/149747553-90e7f1ff-caaa-4fa2-bca7-c7c698d73df1.png)
-
-3. Crie um schema chamado **todolist** em seu banco de dados MySQL.
+  ```
+  DB_HOST=127.0.0.1
+  DB_ENGINE=django.db.backends.mysql
+  DB_NAME=
+  DB_USER=
+  DB_PASSWORD=
+  DB_PORT=3306
+  ```
 4. Faça o migrate:
 - Em `cd to-do-list/back/api_todo` execute o comando `python manage.py migrate`.
 5. Por fim, execute o comando `python manage.py runserver` para executar o back-end da aplicação.
