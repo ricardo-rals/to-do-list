@@ -2,7 +2,7 @@
 
 # Back-End
 1. Clone o repositório:
-- `git clone https://github.com/tryber/sd-010-b-project-delivery-app.git`
+- `git clone https://github.com/ricardo-rals/to-do-list.git`
 2. Entre na pasta do repositório que você acabou de clonar, instale o ambiente virtual e as depedências:
   - `cd to-do-list/back`
   - Execute `python3 -m venv env` para instalar o ambiente virtual
